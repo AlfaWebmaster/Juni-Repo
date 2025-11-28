@@ -3,28 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enlaces</title>
+    <title>Enlaces del usuario</title>
 </head>
 <body>
+    <h2>Mis enlaces</h2>
+
+    <button id="logout">Cerrar sesión</button>
+
     <ul id="lista"></ul>
+
+    <p id="error" style="color:red"></p>
 
 <script>
 async function cargarLinks() {
     const token = localStorage.getItem("token");
+    const error = document.getElementById("error");
 
-    const res = await fetch("/api/links/mis-enlaces", {
-        headers: { "authorization": token }
-    });
+    if (!token) {
+        alert("Debes iniciar sesión");
+        window.location.href = "index.html";
+        return;
+    }
 
-    const data = await res.json();
+    try {
+        const res = await fetch("/api/links/mis-enlaces", {
+            headers: { "Authorization": token }
+        });
 
-    const lista = document.getElementById("lista");
-    data.links.forEach(link => {
-        const li = document.createElement("li");
-        li.innerHTML = `<a href="${link}" target="_blank">${link}</a>`;
-        lista.appendChild(li);
-    });
+        if (res.status === 401) {
+            error.textContent = "Sesión expirada. Inicia sesión de nuevo.";
+            localStorage.removeItem("token");
+            setTimeout(() => window.location.href = "index.html", 1500);
+            return;
+        }
+
+        const data = await res.json();
+
+        const lista = document.getElementById("lista");
+        lista.innerHTML = "";
+
+        if (!data.links || data.links.length === 0) {
+            lista.innerHTML = "<li>No hay enlaces guardados</li>";
+            return;
+        }
+
+        data.links.forEach(link => {
+            const li = document.createElement("li");
+            li.innerHTML = `<a href="${link}" target="_blank">${link}</a>`;
+            lista.appendChild(li);
+        });
+
+    } catch (err) {
+        error.textContent = "Error al cargar los enlaces.";
+    }
 }
+
+document.getElementById("logout").addEventListener("click", () => {
+    localStorage.removeItem("token");
+    window.location.href = "index.html";
+});
 
 cargarLinks();
 </script>
