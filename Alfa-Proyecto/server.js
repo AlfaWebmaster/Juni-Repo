@@ -29,3 +29,15 @@ app.listen(PORT, () => {
 
 const rutas = require("./routes/index");
 app.use("/api", rutas);
+
+const conectarDB = require('./config/db');
+
+conectarDB(); // <<--- Ahora puedes usarlo
+
+const authRoutes = require('./routes/auth');
+const linksRoutes = require('./routes/links');
+
+app.use('/api/auth', authRoutes);
+app.use('/api/links', linksRoutes);
+
+

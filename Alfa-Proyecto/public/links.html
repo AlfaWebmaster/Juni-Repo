@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enlaces</title>
+</head>
+<body>
+    <ul id="lista"></ul>
+
+<script>
+async function cargarLinks() {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch("/api/links/mis-enlaces", {
+        headers: { "authorization": token }
+    });
+
+    const data = await res.json();
+
+    const lista = document.getElementById("lista");
+    data.links.forEach(link => {
+        const li = document.createElement("li");
+        li.innerHTML = `<a href="${link}" target="_blank">${link}</a>`;
+        lista.appendChild(li);
+    });
+}
+
+cargarLinks();
+</script>
+
+</body>
+</html>
