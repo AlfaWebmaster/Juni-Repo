@@ -13,9 +13,13 @@ router.get('/mis-enlaces', async (req, res) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const user = await User.findById(decoded.id);
 
+        if (!user)
+            return res.status(404).json({ msg: "Usuario no encontrado" });
+
         res.json({ links: user.links });
 
     } catch (error) {
+        console.error(error);
         res.status(401).json({ msg: "Token inválido" });
     }
 });

@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
-const UsuarioSchema = new mongoose.Schema({
-    username: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    links: { type: [String], default: [] },
-    fechaRegistro: { type: Date, default: Date.now }
+const UserSchema = new mongoose.Schema({
+    username: String,
+    password: String,
+    links: [String]
 });
 
-module.exports = mongoose.model("User", UsuarioSchema);
+// 👇 AQUI ES DONDE DECIMOS LA COLECCIÓN REAL
+module.exports = mongoose.model("User", UserSchema, "loginUsuarios");

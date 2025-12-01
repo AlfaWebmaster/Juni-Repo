@@ -15,9 +15,9 @@
     <p id="error" style="color:red"></p>
 
 <script>
+
 async function cargarLinks() {
     const token = localStorage.getItem("token");
-    const error = document.getElementById("error");
 
     if (!token) {
         alert("Debes iniciar sesión");
@@ -26,16 +26,9 @@ async function cargarLinks() {
     }
 
     try {
-        const res = await fetch("/api/links/mis-enlaces", {
+        const res = await fetch("http://localhost:8080/api/links/mis-enlaces", {
             headers: { "Authorization": token }
         });
-
-        if (res.status === 401) {
-            error.textContent = "Sesión expirada. Inicia sesión de nuevo.";
-            localStorage.removeItem("token");
-            setTimeout(() => window.location.href = "index.html", 1500);
-            return;
-        }
 
         const data = await res.json();
 
@@ -52,9 +45,8 @@ async function cargarLinks() {
             li.innerHTML = `<a href="${link}" target="_blank">${link}</a>`;
             lista.appendChild(li);
         });
-
     } catch (err) {
-        error.textContent = "Error al cargar los enlaces.";
+        document.getElementById("error").textContent = "Error al cargar los enlaces.";
     }
 }
 
@@ -64,7 +56,7 @@ document.getElementById("logout").addEventListener("click", () => {
 });
 
 cargarLinks();
-</script>
 
+</script>
 </body>
 </html>

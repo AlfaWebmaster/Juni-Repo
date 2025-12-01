@@ -8,8 +8,24 @@ const app = express();
 // Conectar a MongoDB
 conectarDB();
 
+//
+const User = require("./models/User");
+
+User.find().then(users => {
+  console.log("📌 Usuarios en la base realmente conectada:", users);
+});
+
+
+//
+
+
+
+app.use(cors({
+  origin: process.env.FRONTEND_URL || "*"
+  //credentials: true
+}));
+
 // Middlewares
-app.use(cors());
 app.use(express.json());
 
 // Servir frontend

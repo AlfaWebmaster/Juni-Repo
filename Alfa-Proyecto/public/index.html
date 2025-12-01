@@ -41,10 +41,11 @@ document.getElementById("form").addEventListener("submit", async (e) => {
             throw new Error(data.msg || "Error en login");
         }
 
-        alert("Login correcto!");
+        localStorage.setItem("token", data.token);
+        window.location.href = "links.html";
+
     } catch (error) {
-        console.error(error);
-        document.getElementById("error").innerText = "Error en las credenciales o conexión";
+        document.getElementById("error").innerText = error.message;
     }
 });
 </script>
