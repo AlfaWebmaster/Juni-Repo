@@ -1,0 +1,40 @@
+async function cargarLinks() {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        alert("Debes iniciar sesión");
+        window.location.href = "index.html";
+        return;
+    }
+
+    try {
+        const res = await fetch("http://localhost:8080/api/links/mis-enlaces", {
+            headers: { "Authorization": token }
+        });
+
+        const data = await res.json();
+
+        const lista = document.getElementById("lista");
+        lista.innerHTML = "";
+
+        if (!data.links || data.links.length === 0) {
+            lista.innerHTML = "<li>No hay enlaces guardados</li>";
+            return;
+        }
+
+        data.links.forEach(link => {
+            const li = document.createElement("li");
+            li.innerHTML = `<a href="${link}" target="_blank">${link}</a>`;
+            lista.appendChild(li);
+        });
+    } catch (err) {
+        document.getElementById("error").textContent = "Error al cargar los enlaces.";
+    }
+}
+
+document.getElementById("logout").addEventListener("click", () => {
+    localStorage.removeItem("token");
+    window.location.href = "index.html";
+});
+
+cargarLinks();
