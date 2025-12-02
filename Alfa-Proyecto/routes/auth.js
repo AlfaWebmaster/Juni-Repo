@@ -36,7 +36,7 @@ router.post("/login", async (req, res) => {
 
 module.exports = router;
 
-/*zona
+/*
 router.post("/login", async (req, res) => {
     console.log("📩 RECIBIDO EN LOGIN:", req.body);
 

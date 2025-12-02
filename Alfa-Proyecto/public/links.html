@@ -1,18 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enlaces del usuario</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h2>Mis enlaces</h2>
+    <div class="enlaces">
+        <h2>Enlaces</h2>
+         <!-- 👇 Aquí el span con id para mostrar el nombre -->
+        <h3>Bienvenid@ <span id="nombreUsuario"></span></h3>
 
-    <button id="logout">Cerrar sesión</button>
 
     <ul id="lista"></ul>
+       
+        <div>
+         <button id="logout">Cerrar sesión</button>
+        </div>
+        
+    </div>
+    
 
-    <p id="error" style="color:red"></p>
+   
 
 <script src="script_links.js"> </script>
 </body>
